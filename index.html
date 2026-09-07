@@ -22,7 +22,7 @@
 'use strict';
 const $=id=>document.getElementById(id), enc=new TextEncoder();
 const CRYPTO_VERSION=2,PBKDF2_ITERATIONS=600000,SALT_BYTES=16,IV_BYTES=12,MAX_PASSWORDS=3,MAGIC=enc.encode('SZP2SAFE!');
-const HEADER_BYTES=MAGIC.length+1+1+1+1+2+2+1+1+16+12+4+4;
+const HEADER_BYTES=MAGIC.length+5+2+2+1+1+SALT_BYTES+IV_BYTES+4+4;
 const secure=()=>Boolean(window.isSecureContext&&crypto?.subtle);
 function secureCheck(el){if(secure())return true;el.innerHTML='<p class="error">Web Crypto is unavailable. Use HTTPS or localhost. A secure iframe must also have a secure origin.</p>';return false}
 function progress(el,p,label){let w=el.querySelector('.progress');if(!w){w=document.createElement('div');w.className='progress';w.innerHTML='<div class="bar"></div>';el.appendChild(w);const s=document.createElement('div');s.className='small';s.dataset.progressLabel='1';el.appendChild(s)}el.querySelector('.bar').style.width=Math.round(Math.max(0,Math.min(1,p))*100)+'%';const s=el.querySelector('[data-progress-label]');if(s)s.textContent=Math.round(Math.max(0,Math.min(1,p))*100)+'% — '+label}
